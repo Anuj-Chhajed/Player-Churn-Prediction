@@ -6,15 +6,10 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report
 
 df = pd.read_csv("data/online_gaming_behavior_dataset.csv")
-
 df = df.drop("PlayerID", axis=1)
-
 df["churn"] = (df["EngagementLevel"] == "Low").astype(int)
-
 df = df.drop("EngagementLevel", axis=1)
-
 df = df.dropna()
-
 df = pd.get_dummies(df, drop_first=True)
 
 X = df.drop("churn", axis=1)
