@@ -5,6 +5,7 @@ import time
 
 from src.data_validator import validate_and_prepare_player_data, dict_to_ml_dataframe
 from src.agents.workflow import run_churn_analysis_workflow
+from src.pdf_generator import create_pdf_report
 
 st.set_page_config(
     page_title="Player Retention AI",
@@ -170,7 +171,7 @@ with st.sidebar:
             results_df['Risk Status'] = results_df['Churn Prob (%)'].apply(get_risk_badge)
             time.sleep(0.5) 
 
-        st.markdown("<br>### 🌍 GLOBAL ANALYTICS", unsafe_allow_html=True)
+        st.markdown("<br>### GLOBAL ANALYTICS", unsafe_allow_html=True)
         st.markdown(f"""
         <div class='glass-card' style='padding:15px; margin-bottom:10px;'>
             <div style='color:#a1a1aa; font-size:11px; font-weight:bold;'>TOTAL PLAYERS ANALYZED</div>
@@ -194,7 +195,7 @@ if uploaded_file is None:
 else:
     st.markdown("<h1 class='gradient-text'>Risk Control Center</h1>", unsafe_allow_html=True)
 
-    tab1, tab2 = st.tabs(["🚨 At-Risk Intervention", "📊 Live Telemetry Feed"])
+    tab1, tab2 = st.tabs(["At-Risk Intervention", "Live Telemetry Feed"])
     
     with tab2:
         st.dataframe(results_df, use_container_width=True)
@@ -331,3 +332,21 @@ else:
                     time.sleep(0.5)
                     st.caption("Document context retrieved locally via ChromaDB vectors mapping to the player's specific churn signals.")
                     st.markdown(f"<div class='rag-box'><b>Source:</b> <code>retention_strategies.md</code><br><br>{rag_context}</div>", unsafe_allow_html=True)
+
+                # --- PDF Export ---
+                st.markdown("---")
+                pdf_bytes = create_pdf_report(
+                    player_id=str(selected_idx),
+                    prob_val=prob_val,
+                    report_data=report
+                )
+                
+                col_btn1, col_btn2, col_btn3 = st.columns([1,2,1])
+                with col_btn2:
+                    st.download_button(
+                        label="📄 Download Executive Strategy as PDF",
+                        data=pdf_bytes,
+                        file_name=f"Retention_Plan_{selected_idx}.pdf",
+                        mime="application/pdf",
+                        use_container_width=True
+                    )
