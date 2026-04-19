@@ -16,3 +16,4 @@ langchain-core
 chromadb
 sentence-transformers
 fpdf2
+protobuf==3.20.3
