@@ -235,11 +235,11 @@ else:
                     player_dict = selected_player_row.drop(['Churn Prob (%)', 'Risk Status']).to_dict()
                     cleaned_player = validate_and_prepare_player_data(player_dict)
                     
-                    st.write("**Analyzer Agent**: Decoding structural behavior patterns...")
+                    st.write("Analyzer Agent: Decoding structural behavior patterns...")
                     time_lib.sleep(0.8)
-                    st.write("**RAG Retriever**: Searching Knowledge Base (`retention_strategies.md`)...")
+                    st.write("RAG Retriever: Searching Knowledge Base (retention_strategies.md)...")
                     time_lib.sleep(0.8)
-                    st.write("**Strategy & Report Agents**: Structuring executive JSON output...")
+                    st.write("Strategy & Report Agents: Structuring executive JSON output...")
                     
                     result = run_churn_analysis_workflow(
                         cleaned_player, 
