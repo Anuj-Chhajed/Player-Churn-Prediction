@@ -14,4 +14,5 @@ langchain-core
 
 # Phase 5: RAG
 chromadb
-sentence-transformersfpdf2
+sentence-transformers
+fpdf2
